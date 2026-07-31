@@ -1,0 +1,34 @@
+---
+description: Все Task/субагенты запускать только на Composer
+alwaysApply: true
+---
+
+# Subagent model: только Composer
+
+При **любом** вызове инструмента **Task** (субагенты `explore`, `generalPurpose`, `cursor-guide`, `best-of-n-runner`, кастомные агенты, параллельные запуски):
+
+## Обязательно
+
+1. Всегда передавать параметр **`model`**.
+2. Значение — только одно из:
+   - **`composer-2.5-fast`** — дефолт (exploration, parallel, implementation, длинные задачи)
+   - **`composer-2.5`** — если пользователь явно просит обычный (не-fast) Composer
+3. Несколько субагентов в одном сообщении — тоже все на Composer.
+
+## Запрещено (пока пользователь явно не переопределил в текущем сообщении)
+
+- Опускать `model`
+- `inherit` / «как у родителя»
+- Auto / router
+- Любые не-Composer модели для Task: Grok, Claude, GPT, Sol и т.п.
+
+## Пример
+
+```json
+{
+  "subagent_type": "explore",
+  "model": "composer-2.5-fast",
+  "description": "Explore pipeline",
+  "prompt": "…"
+}
+```
